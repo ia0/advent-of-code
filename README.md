@@ -1,0 +1,19 @@
+# Advent of Code
+
+This repository contains solutions for the [Advent of Code](advent-of-code) (an
+advent calendar of small programming puzzles) of the following years:
+- [2022](tree/main/2022)
+- [2021](tree/main/2021)
+- [2020](tree/main/2020)
+- [2019](tree/main/2019)
+- [2018](tree/main/2018)
+- [2017](tree/main/2017)
+
+The solutions are written in Rust and try (to some extent) to be clean and
+idiomatic.
+
+## Disclaimer
+
+This is not an officially supported Google product.
+
+[advent-of-code]: https://adventofcode.com/
