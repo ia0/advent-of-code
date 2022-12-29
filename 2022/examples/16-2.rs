@@ -123,12 +123,30 @@ fn solve(input: impl Read, mut output: impl Write) -> Result<()> {
     let mut best = 0;
     while let Some(cur) = todo.pop() {
         best = std::cmp::max(best, cur.pressure);
-        let remaining_flow = (0 .. names.len())
+        let mut remaining_flow = (0 .. names.len())
             .filter(|x| valves[x].flow > 0 && !cur.open.contains(x))
-            .map(|x| valves[&x].flow)
-            .sum::<usize>();
-        let max_minutes = cur.players.iter().map(|x| x.minutes).max().unwrap();
-        if cur.pressure + max_minutes * remaining_flow <= best {
+            .map(|x| (x, dist[&x].values().min().unwrap() + 1))
+            .collect::<Vec<_>>();
+        let mut best_estimate = cur.pressure;
+        let mut best_minutes = [cur.players[0].minutes, cur.players[1].minutes];
+        while !remaining_flow.is_empty() {
+            let flow = |index, player: usize| {
+                let (name, dist) = remaining_flow[index];
+                valves[&name].flow * best_minutes[player].saturating_sub(dist)
+            };
+            let mut best: Option<(usize, usize)> = None;
+            for name in 0 .. remaining_flow.len() {
+                let cur = (flow(name, 0) < flow(name, 1)) as usize;
+                if best.map_or(true, |best| flow(best.0, best.1) < flow(name, cur)) {
+                    best = Some((name, cur));
+                }
+            }
+            let (index, player) = best.unwrap();
+            let (name, dist) = remaining_flow.swap_remove(index);
+            best_minutes[player] = best_minutes[player].saturating_sub(dist);
+            best_estimate += best_minutes[player] * valves[&name].flow;
+        }
+        if best_estimate <= best {
             continue;
         }
         for name in 0 .. names.len() {
