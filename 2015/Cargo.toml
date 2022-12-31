@@ -7,4 +7,5 @@ edition = "2021"
 
 [dependencies]
 anyhow = "1.0.68"
+internment = "0.7.0"
 md-5 = "0.10.5"
