@@ -59,19 +59,19 @@ fn binary_search_ok() {
 }
 
 #[derive(Debug, Default, Copy, Clone, PartialOrd, Ord, PartialEq, Eq, Hash)]
-pub struct Coord<T> {
-    pub x: T,
-    pub y: T,
+pub struct Coord {
+    pub x: i64,
+    pub y: i64,
 }
 
 #[derive(Debug, Copy, Clone)]
-pub struct Frame<T> {
-    pub min: Coord<T>,
-    pub max: Coord<T>,
+pub struct Frame {
+    pub min: Coord,
+    pub max: Coord,
 }
 
-impl<T: Copy + Ord> Frame<T> {
-    pub fn new(mut iter: impl Iterator<Item = Coord<T>>) -> Option<Self> {
+impl Frame {
+    pub fn new(mut iter: impl Iterator<Item = Coord>) -> Option<Self> {
         let init = iter.next()?;
         Some(iter.fold(Frame { min: init, max: init }, |mut frame, coord| {
             frame.min.x = std::cmp::min(frame.min.x, coord.x);
@@ -83,10 +83,10 @@ impl<T: Copy + Ord> Frame<T> {
     }
 }
 
-pub const ADJACENT_PLUS: [Coord<i64>; 4] =
+pub const ADJACENT_PLUS: [Coord; 4] =
     [Coord { x: -1, y: 0 }, Coord { x: 1, y: 0 }, Coord { x: 0, y: 1 }, Coord { x: 0, y: -1 }];
 
-pub const ADJACENT_STAR: [Coord<i64>; 8] = [
+pub const ADJACENT_STAR: [Coord; 8] = [
     Coord { x: -1, y: -1 },
     Coord { x: -1, y: 0 },
     Coord { x: -1, y: 1 },
@@ -97,30 +97,27 @@ pub const ADJACENT_STAR: [Coord<i64>; 8] = [
     Coord { x: 1, y: 1 },
 ];
 
-impl Coord<i64> {
-    pub fn contains(self, p: Coord<i64>) -> bool {
+impl Coord {
+    pub fn contains(self, p: Coord) -> bool {
         0 <= p.x && p.x < self.x && 0 <= p.y && p.y < self.y
     }
 
-    pub fn iter(self) -> impl Iterator<Item = Coord<i64>> {
+    pub fn iter(self) -> impl Iterator<Item = Coord> {
         (0 .. self.x).flat_map(move |x| (0 .. self.y).map(move |y| Coord { x, y }))
     }
 }
 
-pub fn print_set<T>(set: &HashSet<Coord<T>>, rev_y: bool)
+pub fn print_set<T>(set: &HashSet<Coord>, rev_y: bool)
 where
     T: Default + Copy + std::hash::Hash + Ord + std::iter::Step,
 {
     print_map(&set.iter().map(|&x| (x, '#')).collect(), rev_y, |&x| x);
 }
 
-pub fn print_map<T, V>(map: &HashMap<Coord<T>, V>, rev_y: bool, mut as_char: impl Fn(&V) -> char)
-where
-    T: Default + Copy + std::hash::Hash + Ord + std::iter::Step,
-    std::ops::RangeInclusive<T>: Iterator<Item = T>,
-{
+pub fn print_map<V>(map: &HashMap<Coord, V>, rev_y: bool, mut as_char: impl Fn(&V) -> char) {
     let frame = Frame::new(map.keys().cloned()).unwrap();
-    let mut y_axis: Box<dyn DoubleEndedIterator<Item = T>> = Box::new(frame.min.y ..= frame.max.y);
+    let mut y_axis: Box<dyn DoubleEndedIterator<Item = i64>> =
+        Box::new(frame.min.y ..= frame.max.y);
     if rev_y {
         y_axis = Box::new(y_axis.rev());
     }
@@ -132,41 +129,41 @@ where
     }
 }
 
-impl<T: std::ops::Add<T, Output = T>> std::ops::Add<Coord<T>> for Coord<T> {
-    type Output = Coord<T>;
+impl std::ops::Add<Coord> for Coord {
+    type Output = Coord;
 
-    fn add(self, rhs: Coord<T>) -> Coord<T> {
+    fn add(self, rhs: Coord) -> Coord {
         Coord { x: self.x + rhs.x, y: self.y + rhs.y }
     }
 }
 
-impl<T: std::ops::AddAssign<T>> std::ops::AddAssign<Coord<T>> for Coord<T> {
-    fn add_assign(&mut self, rhs: Coord<T>) {
+impl std::ops::AddAssign<Coord> for Coord {
+    fn add_assign(&mut self, rhs: Coord) {
         self.x += rhs.x;
         self.y += rhs.y;
     }
 }
 
-impl<T: std::ops::Sub<T, Output = T>> std::ops::Sub<Coord<T>> for Coord<T> {
-    type Output = Coord<T>;
+impl std::ops::Sub<Coord> for Coord {
+    type Output = Coord;
 
-    fn sub(self, rhs: Coord<T>) -> Coord<T> {
+    fn sub(self, rhs: Coord) -> Coord {
         Coord { x: self.x - rhs.x, y: self.y - rhs.y }
     }
 }
 
-impl<T: Copy + std::ops::Mul<T, Output = T>> std::ops::Mul<T> for Coord<T> {
-    type Output = Coord<T>;
+impl std::ops::Mul<i64> for Coord {
+    type Output = Coord;
 
-    fn mul(self, rhs: T) -> Coord<T> {
+    fn mul(self, rhs: i64) -> Coord {
         Coord { x: self.x * rhs, y: self.y * rhs }
     }
 }
 
-impl<T: Copy + std::ops::Mul<T, Output = T>> std::ops::Mul<Coord<T>> for Coord<T> {
-    type Output = Coord<T>;
+impl std::ops::Mul<Coord> for Coord {
+    type Output = Coord;
 
-    fn mul(self, rhs: Coord<T>) -> Coord<T> {
+    fn mul(self, rhs: Coord) -> Coord {
         Coord { x: self.x * rhs.x, y: self.y * rhs.y }
     }
 }

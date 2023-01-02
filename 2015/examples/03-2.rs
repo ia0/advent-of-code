@@ -1,9 +1,8 @@
 use std::collections::HashSet;
 use std::io::{Read, Write};
 
+use adventofcode::Coord;
 use anyhow::Result;
-
-type Coord = adventofcode::Coord<i64>;
 
 fn solve(mut input: impl Read, mut output: impl Write) -> Result<()> {
     let mut directions = Vec::new();

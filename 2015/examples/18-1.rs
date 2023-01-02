@@ -1,10 +1,8 @@
 use std::collections::HashSet;
 use std::io::{BufRead, BufReader, Read, Write};
 
-use adventofcode::ADJACENT_STAR;
+use adventofcode::{Coord, ADJACENT_STAR};
 use anyhow::Result;
-
-type Coord = adventofcode::Coord<i64>;
 
 fn step(cur: &HashSet<Coord>) -> HashSet<Coord> {
     let mut next = HashSet::new();
