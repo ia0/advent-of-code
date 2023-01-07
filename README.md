@@ -8,6 +8,7 @@ advent calendar of small programming puzzles) of the following years:
 - [2019](2019)
 - [2018](2018)
 - [2017](2017)
+- [2016](2016) (in progress)
 - [2015](2015)
 
 The solutions are written in Rust and try (to some extent) to be clean and
