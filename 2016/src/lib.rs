@@ -3,7 +3,10 @@
 
 use std::cmp::Reverse;
 use std::collections::{BinaryHeap, HashMap, HashSet};
+use std::io::Write;
 use std::ops::Range;
+
+use anyhow::Result;
 
 #[macro_export]
 macro_rules! main {
@@ -107,14 +110,13 @@ impl Coord {
     }
 }
 
-pub fn print_set<T>(set: &HashSet<Coord>, rev_y: bool)
-where
-    T: Default + Copy + std::hash::Hash + Ord + std::iter::Step,
-{
-    print_map(&set.iter().map(|&x| (x, '#')).collect(), rev_y, |&x| x);
+pub fn print_set(output: impl Write, set: &HashSet<Coord>, rev_y: bool) -> Result<()> {
+    print_map(output, &set.iter().map(|&x| (x, '#')).collect(), rev_y, |&x| x)
 }
 
-pub fn print_map<V>(map: &HashMap<Coord, V>, rev_y: bool, mut as_char: impl Fn(&V) -> char) {
+pub fn print_map<V>(
+    mut output: impl Write, map: &HashMap<Coord, V>, rev_y: bool, mut as_char: impl Fn(&V) -> char,
+) -> Result<()> {
     let frame = Frame::new(map.keys().cloned()).unwrap();
     let mut y_axis: Box<dyn DoubleEndedIterator<Item = i64>> =
         Box::new(frame.min.y ..= frame.max.y);
@@ -123,10 +125,11 @@ pub fn print_map<V>(map: &HashMap<Coord, V>, rev_y: bool, mut as_char: impl Fn(&
     }
     for y in y_axis {
         for x in frame.min.x ..= frame.max.x {
-            print!("{}", map.get(&Coord { x, y }).map(&mut as_char).unwrap_or(' '));
+            write!(output, "{}", map.get(&Coord { x, y }).map(&mut as_char).unwrap_or(' '))?;
         }
-        println!();
+        writeln!(output)?;
     }
+    Ok(())
 }
 
 impl std::ops::Add<Coord> for Coord {
