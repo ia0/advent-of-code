@@ -61,6 +61,53 @@ fn binary_search_ok() {
     }
 }
 
+/// Returns (egcd(a, b), s, t) s.t. `egcd(a, b) == a * s + b * t`.
+pub fn egcd(a: i64, b: i64) -> (i64, i64, i64) {
+    let mut rx = a;
+    let mut sx = 1;
+    let mut tx = 0;
+    let mut ry = b;
+    let mut sy = 0;
+    let mut ty = 1;
+    while ry > 0 {
+        let q = rx / ry;
+        rx -= q * ry;
+        sx -= q * sy;
+        tx -= q * ty;
+        std::mem::swap(&mut rx, &mut ry);
+        std::mem::swap(&mut sx, &mut sy);
+        std::mem::swap(&mut tx, &mut ty);
+    }
+    (rx, sx, tx)
+}
+
+#[test]
+fn egcd_ok() {
+    assert_eq!(egcd(2, 3), (1, -1, 1));
+    assert_eq!(egcd(3, 2), (1, 1, -1));
+    assert_eq!(egcd(2, 4), (2, 1, 0));
+    assert_eq!(egcd(6, 8), (2, -1, 1));
+}
+
+/// Returns (r, m) s.t. `x = r [m]` given `x = r_i [m_i]`.
+pub fn crt(rms: &[(i64, i64)]) -> (i64, i64) {
+    let mut rm = rms[0];
+    for &rms in &rms[1 ..] {
+        let (r, s, t) = egcd(rm.1, rms.1);
+        assert_eq!(r, 1);
+        rm.0 = rm.0 * t * rms.1 + rms.0 * s * rm.1;
+        rm.1 *= rms.1;
+        rm.0 = rm.0.rem_euclid(rm.1);
+    }
+    rm
+}
+
+#[test]
+fn crt_ok() {
+    assert_eq!(crt(&[(1, 2), (2, 3)]), (5, 6));
+    assert_eq!(crt(&[(1, 2), (2, 3), (1, 5)]), (11, 30));
+}
+
 #[derive(Debug, Default, Copy, Clone, PartialOrd, Ord, PartialEq, Eq, Hash)]
 pub struct Coord {
     pub x: i64,
