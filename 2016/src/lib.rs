@@ -131,6 +131,11 @@ impl Frame {
             frame
         }))
     }
+
+    pub fn contains(self, coord: Coord) -> bool {
+        (self.min.x ..= self.max.x).contains(&coord.x)
+            && (self.min.y ..= self.max.y).contains(&coord.y)
+    }
 }
 
 pub const ADJACENT_PLUS: [Coord; 4] =
