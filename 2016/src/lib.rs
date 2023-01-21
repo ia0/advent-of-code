@@ -4,7 +4,7 @@
 use std::cmp::Reverse;
 use std::collections::{BinaryHeap, HashMap, HashSet};
 use std::io::Write;
-use std::ops::Range;
+use std::ops::{Deref, Range};
 
 use anyhow::Result;
 
@@ -237,6 +237,14 @@ pub fn topn<T: Ord>(n: usize, iter: impl Iterator<Item = T>) -> impl Iterator<It
 
 #[derive(Default)]
 pub struct Intervals(Vec<Range<i64>>);
+
+impl Deref for Intervals {
+    type Target = [Range<i64>];
+
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
 
 impl Intervals {
     pub fn insert(&mut self, range: Range<i64>) {
