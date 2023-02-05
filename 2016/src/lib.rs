@@ -162,6 +162,28 @@ impl Coord {
     }
 }
 
+pub fn shortest_dist_plus(walls: &HashSet<Coord>, a: Coord, b: Coord) -> Option<usize> {
+    let mut todo = BinaryHeap::new();
+    todo.push((Reverse(0), a));
+    let mut visited = HashSet::new();
+    while let Some((Reverse(d), a)) = todo.pop() {
+        if !visited.insert(a) {
+            continue;
+        }
+        if a == b {
+            return Some(d);
+        }
+        for x in ADJACENT_PLUS {
+            let a = a + x;
+            if walls.contains(&a) {
+                continue;
+            }
+            todo.push((Reverse(d + 1), a));
+        }
+    }
+    None
+}
+
 pub fn print_set(output: impl Write, set: &HashSet<Coord>, rev_y: bool) -> Result<()> {
     print_map(output, &set.iter().map(|&x| (x, '#')).collect(), rev_y, |&x| x)
 }
