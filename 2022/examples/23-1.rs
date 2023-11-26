@@ -37,7 +37,6 @@ fn solve(input: impl Read, mut output: impl Write) -> Result<()> {
                     let dst = src + dest[1];
                     match from.entry(dst) {
                         Entry::Occupied(mut x) => drop(x.insert(None)),
-                        #[allow(clippy::drop_ref)]
                         Entry::Vacant(x) => drop(x.insert(Some(src))),
                     }
                     break;

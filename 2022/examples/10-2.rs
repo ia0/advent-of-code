@@ -39,7 +39,7 @@ fn solve(input: impl Read, mut output: impl Write) -> Result<()> {
     for row in 0 .. 6 {
         for col in 0 .. 40 {
             let pixel = match trace[40 * row + col] - col as i64 {
-                -1 | 0 | 1 => '#',
+                -1 ..= 1 => '#',
                 _ => '.',
             };
             write!(output, "{pixel}")?;

@@ -27,20 +27,20 @@ impl State {
     fn adjust(&mut self) {
         let diff = self.tail - self.head;
         match (diff.x, diff.y) {
-            (-1 | 0 | 1, -1 | 0 | 1) => (),
-            (-2, y @ (-1 | 0 | 1)) => {
+            (-1 ..= 1, -1 ..= 1) => (),
+            (-2, y @ (-1 ..= 1)) => {
                 self.tail.x += 1;
                 self.tail.y -= y;
             }
-            (2, y @ (-1 | 0 | 1)) => {
+            (2, y @ (-1 ..= 1)) => {
                 self.tail.x -= 1;
                 self.tail.y -= y;
             }
-            (x @ (-1 | 0 | 1), -2) => {
+            (x @ (-1 ..= 1), -2) => {
                 self.tail.x -= x;
                 self.tail.y += 1;
             }
-            (x @ (-1 | 0 | 1), 2) => {
+            (x @ (-1 ..= 1), 2) => {
                 self.tail.x -= x;
                 self.tail.y -= 1;
             }

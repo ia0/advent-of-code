@@ -28,19 +28,17 @@ impl Path {
         let mut pass = code.to_vec();
         pass.extend_from_slice(&self.0);
         let hash = HEXLOWER.encode(&Md5::digest(pass)).into_bytes();
-        (0 .. 4).filter_map(move |i| {
-            (b'b' ..= b'f').contains(&hash[i]).then(|| {
-                let x = match i {
-                    0 => b'U',
-                    1 => b'D',
-                    2 => b'L',
-                    3 => b'R',
-                    _ => unreachable!(),
-                };
-                let mut p = self.0.clone();
-                p.push(x);
-                Path(p)
-            })
+        (0 .. 4).filter(move |&i| (b'b' ..= b'f').contains(&hash[i])).map(|i| {
+            let x = match i {
+                0 => b'U',
+                1 => b'D',
+                2 => b'L',
+                3 => b'R',
+                _ => unreachable!(),
+            };
+            let mut p = self.0.clone();
+            p.push(x);
+            Path(p)
         })
     }
 }

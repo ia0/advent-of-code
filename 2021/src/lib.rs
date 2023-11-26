@@ -1,4 +1,3 @@
-#![feature(drain_filter)]
 #![feature(step_trait)]
 
 use std::collections::{HashMap, HashSet};

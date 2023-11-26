@@ -13,7 +13,6 @@ fn is_nice(xs: &[u8]) -> bool {
                     return xs.windows(3).any(|x| x[0] == x[2]);
                 }
             }
-            #[allow(clippy::drop_ref)]
             Entry::Vacant(x) => drop(x.insert(i)),
         }
     }

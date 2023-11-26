@@ -1,4 +1,3 @@
-#![feature(drain_filter)]
 #![feature(step_trait)]
 
 use std::cmp::Reverse;
@@ -288,10 +287,10 @@ impl Intervals {
     }
 
     pub fn intersect(&mut self, range: Range<i64>) {
-        self.0.drain_filter(|x| {
+        self.0.retain_mut(|x| {
             x.start = std::cmp::max(x.start, range.start);
             x.end = std::cmp::min(x.end, range.end);
-            x.is_empty()
+            !x.is_empty()
         });
     }
 
@@ -308,6 +307,7 @@ impl Intervals {
     }
 }
 
+#[allow(clippy::single_range_in_vec_init)]
 #[test]
 fn intervals_insert() {
     #[track_caller]

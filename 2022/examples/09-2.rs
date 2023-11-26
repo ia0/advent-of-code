@@ -29,20 +29,20 @@ impl State {
     fn adjust(&mut self, i: usize) {
         let diff = self.knot[i] - self.knot[i - 1];
         match (diff.x, diff.y) {
-            (-1 | 0 | 1, -1 | 0 | 1) => (),
-            (-2, y @ (-1 | 0 | 1)) => {
+            (-1 ..= 1, -1 ..= 1) => (),
+            (-2, y @ (-1 ..= 1)) => {
                 self.knot[i].x += 1;
                 self.knot[i].y -= y;
             }
-            (2, y @ (-1 | 0 | 1)) => {
+            (2, y @ (-1 ..= 1)) => {
                 self.knot[i].x -= 1;
                 self.knot[i].y -= y;
             }
-            (x @ (-1 | 0 | 1), -2) => {
+            (x @ (-1 ..= 1), -2) => {
                 self.knot[i].x -= x;
                 self.knot[i].y += 1;
             }
-            (x @ (-1 | 0 | 1), 2) => {
+            (x @ (-1 ..= 1), 2) => {
                 self.knot[i].x -= x;
                 self.knot[i].y -= 1;
             }
