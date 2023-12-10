@@ -137,8 +137,12 @@ impl Frame {
     }
 }
 
-pub const ADJACENT_PLUS: [Coord; 4] =
-    [Coord { x: -1, y: 0 }, Coord { x: 1, y: 0 }, Coord { x: 0, y: 1 }, Coord { x: 0, y: -1 }];
+pub const NORTH: Coord = Coord { x: 0, y: -1 };
+pub const SOUTH: Coord = Coord { x: 0, y: 1 };
+pub const EAST: Coord = Coord { x: 1, y: 0 };
+pub const WEST: Coord = Coord { x: -1, y: 0 };
+
+pub const ADJACENT_PLUS: [Coord; 4] = [NORTH, SOUTH, EAST, WEST];
 
 pub const ADJACENT_STAR: [Coord; 8] = [
     Coord { x: -1, y: -1 },
@@ -158,6 +162,14 @@ impl Coord {
 
     pub fn iter(self) -> impl Iterator<Item = Coord> {
         (0 .. self.x).flat_map(move |x| (0 .. self.y).map(move |y| Coord { x, y }))
+    }
+
+    pub fn left(self) -> Self {
+        Coord { x: self.y, y: -self.x }
+    }
+
+    pub fn right(self) -> Self {
+        Coord { x: -self.y, y: self.x }
     }
 }
 
@@ -241,6 +253,14 @@ impl std::ops::Mul<Coord> for Coord {
 
     fn mul(self, rhs: Coord) -> Coord {
         Coord { x: self.x * rhs.x, y: self.y * rhs.y }
+    }
+}
+
+impl std::ops::Neg for Coord {
+    type Output = Coord;
+
+    fn neg(self) -> Self::Output {
+        Coord { x: -self.x, y: -self.y }
     }
 }
 
