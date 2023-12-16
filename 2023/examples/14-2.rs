@@ -3,7 +3,7 @@ use std::io::{BufRead, BufReader, Read, Write};
 
 use anyhow::{ensure, Result};
 
-fn roll(map: &mut Vec<Vec<u8>>) {
+fn roll(map: &mut [Vec<u8>]) {
     for i in 0 .. map[0].len() {
         let mut k = 0;
         for j in 0 .. map.len() {
