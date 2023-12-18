@@ -107,6 +107,14 @@ fn crt_ok() {
     assert_eq!(crt(&[(1, 2), (2, 3), (1, 5)]), (11, 30));
 }
 
+pub fn order_pair<T: Ord>(x: T, y: T) -> (T, T) {
+    if x <= y {
+        (x, y)
+    } else {
+        (y, x)
+    }
+}
+
 #[derive(Debug, Default, Copy, Clone, PartialOrd, Ord, PartialEq, Eq, Hash)]
 pub struct Coord {
     pub x: i64,
@@ -134,6 +142,11 @@ impl Frame {
     pub fn contains(self, coord: Coord) -> bool {
         (self.min.x ..= self.max.x).contains(&coord.x)
             && (self.min.y ..= self.max.y).contains(&coord.y)
+    }
+
+    #[allow(clippy::len_without_is_empty)]
+    pub fn len(self) -> usize {
+        ((self.max.y - self.min.y + 1) * (self.max.x - self.min.x + 1)) as usize
     }
 }
 
