@@ -121,7 +121,7 @@ pub struct Coord {
     pub y: i64,
 }
 
-#[derive(Debug, Copy, Clone)]
+#[derive(Debug, Default, Copy, Clone)]
 pub struct Frame {
     pub min: Coord,
     pub max: Coord,
