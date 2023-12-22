@@ -115,6 +115,12 @@ pub fn order_pair<T: Ord>(x: T, y: T) -> (T, T) {
     }
 }
 
+pub fn order_pair_mut<T: Ord>(x: &mut T, y: &mut T) {
+    if y < x {
+        std::mem::swap(x, y);
+    }
+}
+
 #[derive(Debug, Default, Copy, Clone, PartialOrd, Ord, PartialEq, Eq, Hash)]
 pub struct Coord {
     pub x: i64,
