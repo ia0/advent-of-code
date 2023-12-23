@@ -150,6 +150,11 @@ impl Frame {
             && (self.min.y ..= self.max.y).contains(&coord.y)
     }
 
+    pub fn iter(self) -> impl Iterator<Item = Coord> {
+        (self.min.x ..= self.max.x)
+            .flat_map(move |x| (self.min.y ..= self.max.y).map(move |y| Coord { x, y }))
+    }
+
     #[allow(clippy::len_without_is_empty)]
     pub fn len(self) -> usize {
         ((self.max.y - self.min.y + 1) * (self.max.x - self.min.x + 1)) as usize
