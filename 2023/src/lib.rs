@@ -6,6 +6,7 @@ use std::io::Write;
 use std::ops::{Deref, Range};
 
 use anyhow::Result;
+use num::{Integer, Signed};
 
 #[macro_export]
 macro_rules! main {
@@ -60,19 +61,23 @@ fn binary_search_ok() {
     }
 }
 
-/// Returns (egcd(a, b), s, t) s.t. `egcd(a, b) == a * s + b * t`.
-pub fn egcd(a: i64, b: i64) -> (i64, i64, i64) {
+/// Returns (gcd(a, b), s, t) s.t. `gcd(a, b) == a * s + b * t`.
+pub fn egcd<T: Clone + Signed + Integer>(a: T, b: T) -> (T, T, T) {
+    if a < T::zero() || b < T::zero() {
+        let (g, s, t) = egcd(a.abs(), b.abs());
+        return (g, a.signum() * s, b.signum() * t);
+    }
     let mut rx = a;
-    let mut sx = 1;
-    let mut tx = 0;
+    let mut sx = T::one();
+    let mut tx = T::zero();
     let mut ry = b;
-    let mut sy = 0;
-    let mut ty = 1;
-    while ry > 0 {
-        let q = rx / ry;
-        rx -= q * ry;
-        sx -= q * sy;
-        tx -= q * ty;
+    let mut sy = T::zero();
+    let mut ty = T::one();
+    while T::zero() < ry {
+        let q = rx.clone() / ry.clone();
+        rx = rx - q.clone() * ry.clone();
+        sx = sx - q.clone() * sy.clone();
+        tx = tx - q * ty.clone();
         std::mem::swap(&mut rx, &mut ry);
         std::mem::swap(&mut sx, &mut sy);
         std::mem::swap(&mut tx, &mut ty);
@@ -83,9 +88,16 @@ pub fn egcd(a: i64, b: i64) -> (i64, i64, i64) {
 #[test]
 fn egcd_ok() {
     assert_eq!(egcd(2, 3), (1, -1, 1));
+    assert_eq!(egcd(-2, 3), (1, 1, 1));
+    assert_eq!(egcd(2, -3), (1, -1, -1));
+    assert_eq!(egcd(-2, -3), (1, 1, -1));
     assert_eq!(egcd(3, 2), (1, 1, -1));
     assert_eq!(egcd(2, 4), (2, 1, 0));
     assert_eq!(egcd(6, 8), (2, -1, 1));
+    assert_eq!(egcd(6, 1), (1, 0, 1));
+    assert_eq!(egcd(1, 6), (1, 1, 0));
+    assert_eq!(egcd(6, 0), (6, 1, 0));
+    assert_eq!(egcd(0, 6), (6, 0, 1));
 }
 
 /// Returns (r, m) s.t. `x = r [m]` given `x = r_i [m_i]`.
