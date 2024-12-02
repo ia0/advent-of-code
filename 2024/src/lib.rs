@@ -28,6 +28,11 @@ macro_rules! main {
     };
 }
 
+/// Parses an input string as whitespace-separated integers.
+pub fn parse_ints(input: std::io::Result<String>) -> Result<Vec<i64>> {
+    input?.split_whitespace().map(|x| Ok(x.parse()?)).collect()
+}
+
 /// Returns the smallest `x` such that `f(x)` is `true`.
 ///
 /// The function `f` must be monotonous and transition from `false` to `true`.
