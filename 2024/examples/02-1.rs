@@ -5,7 +5,7 @@ use anyhow::Result;
 fn solve(input: impl Read, mut output: impl Write) -> Result<()> {
     let mut total = 0;
     for line in BufReader::new(input).lines() {
-        let xs: Vec<_> = adventofcode::parse_ints(line)?;
+        let xs: Vec<_> = adventofcode::parse_ints(&line?)?;
         let mut min = i64::MAX;
         let mut max = i64::MIN;
         for w in xs.windows(2) {

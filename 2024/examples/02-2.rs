@@ -20,7 +20,7 @@ fn safe(xs: Vec<i64>) -> bool {
 fn solve(input: impl Read, mut output: impl Write) -> Result<()> {
     let mut total = 0;
     for line in BufReader::new(input).lines() {
-        let xs: Vec<_> = adventofcode::parse_ints(line)?;
+        let xs: Vec<_> = adventofcode::parse_ints(&line?)?;
         total += (0 ..= xs.len())
             .map(|i| {
                 if i == xs.len() {
