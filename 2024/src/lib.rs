@@ -5,7 +5,7 @@ use std::collections::{BinaryHeap, HashMap, HashSet};
 use std::io::Write;
 use std::ops::{Deref, Range};
 
-use anyhow::Result;
+use anyhow::{Context, Result};
 use num::{Integer, Signed};
 
 #[macro_export]
@@ -197,6 +197,11 @@ pub const ADJACENT_STAR: [Coord; 8] = [
 ];
 
 impl Coord {
+    pub fn parse(input: &str, sep: &str) -> Result<Coord> {
+        let (x, y) = input.split_once(sep).context("missing separator")?;
+        Ok(Coord { x: x.parse()?, y: y.parse()? })
+    }
+
     pub fn contains(self, p: Coord) -> bool {
         0 <= p.x && p.x < self.x && 0 <= p.y && p.y < self.y
     }
@@ -294,6 +299,13 @@ impl std::ops::Mul<Coord> for Coord {
 
     fn mul(self, rhs: Coord) -> Coord {
         Coord { x: self.x * rhs.x, y: self.y * rhs.y }
+    }
+}
+
+impl std::ops::RemAssign<Coord> for Coord {
+    fn rem_assign(&mut self, rhs: Coord) {
+        self.x = self.x.rem_euclid(rhs.x);
+        self.y = self.y.rem_euclid(rhs.y);
     }
 }
 
