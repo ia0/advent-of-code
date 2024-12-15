@@ -33,9 +33,9 @@ fn solve(input: impl Read, mut output: impl Write) -> Result<()> {
     let total = 7623;
     for _i in 0 ..= total {
         let map: HashSet<Coord> = robots.iter().map(|x| x.pos).collect();
-        let cur = FRAME
+        let cur = map
             .iter()
-            .filter(|&pos| ADJACENT_PLUS.iter().all(|&dir| !map.contains(&(pos + dir))))
+            .filter(|&&pos| ADJACENT_PLUS.iter().any(|&dir| map.contains(&(pos + dir))))
             .count();
         if best < cur {
             // adventofcode::print_set(std::io::stderr(), &map, false)?;

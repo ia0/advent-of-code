@@ -5,7 +5,7 @@ use std::collections::{BinaryHeap, HashMap, HashSet};
 use std::io::Write;
 use std::ops::{Deref, Range};
 
-use anyhow::{Context, Result};
+use anyhow::{bail, Context, Result};
 use num::{Integer, Signed};
 
 #[macro_export]
@@ -200,6 +200,16 @@ impl Coord {
     pub fn parse(input: &str, sep: &str) -> Result<Coord> {
         let (x, y) = input.split_once(sep).context("missing separator")?;
         Ok(Coord { x: x.parse()?, y: y.parse()? })
+    }
+
+    pub fn parse_dir(byte: u8) -> Result<Coord> {
+        Ok(match byte {
+            b'<' => WEST,
+            b'>' => EAST,
+            b'^' => NORTH,
+            b'v' => SOUTH,
+            _ => bail!("invalid direction {:?}", byte as char),
+        })
     }
 
     pub fn contains(self, p: Coord) -> bool {
