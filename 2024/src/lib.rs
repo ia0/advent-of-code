@@ -227,6 +227,14 @@ impl Coord {
     pub fn right(self) -> Self {
         Coord { x: -self.y, y: self.x }
     }
+
+    pub fn dist_plus(self, other: Coord) -> usize {
+        (self - other).len_plus()
+    }
+
+    pub fn len_plus(self) -> usize {
+        (self.x.abs() + self.y.abs()) as usize
+    }
 }
 
 pub fn shortest_dist_plus(walls: &HashSet<Coord>, a: Coord, b: Coord) -> Option<usize> {
