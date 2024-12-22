@@ -235,6 +235,10 @@ impl Coord {
     pub fn len_plus(self) -> usize {
         (self.x.abs() + self.y.abs()) as usize
     }
+
+    pub fn signum(self) -> Coord {
+        Coord { x: self.x.signum(), y: self.y.signum() }
+    }
 }
 
 pub fn shortest_dist_plus(walls: &HashSet<Coord>, a: Coord, b: Coord) -> Option<usize> {
