@@ -17,11 +17,7 @@ fn cost(a: Coord, b: Coord, p: Coord) -> Option<i64> {
     if zp == rb * zb {
         let ra = (p.x - b.x * rb) / a.x;
         if p.x == ra * a.x + rb * b.x {
-            if ra <= 100 {
-                Some(3 * ra + rb)
-            } else {
-                None
-            }
+            if ra <= 100 { Some(3 * ra + rb) } else { None }
         } else {
             None
         }

@@ -1,7 +1,7 @@
 use std::collections::{HashMap, HashSet};
 use std::io::{BufRead, BufReader, Read, Write};
 
-use adventofcode::{Coord, ADJACENT_STAR};
+use adventofcode::{ADJACENT_STAR, Coord};
 use anyhow::Result;
 
 fn read(word: &[u8], map: &HashMap<Coord, u8>, pos: Coord, dir: Coord) -> bool {

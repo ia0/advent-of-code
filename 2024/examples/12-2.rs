@@ -1,7 +1,7 @@
 use std::collections::{BTreeSet, HashMap, HashSet};
 use std::io::{BufRead, BufReader, Read, Write};
 
-use adventofcode::{Coord, ADJACENT_PLUS};
+use adventofcode::{ADJACENT_PLUS, Coord};
 use anyhow::Result;
 
 fn sides(sides: &HashMap<(i64, i64), BTreeSet<i64>>) -> usize {

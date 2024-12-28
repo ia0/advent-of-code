@@ -10,11 +10,7 @@ fn safe(xs: Vec<i64>) -> bool {
         min = std::cmp::min(min, d);
         max = std::cmp::max(max, d);
     }
-    if max < 0 {
-        -3 <= min && max <= -1
-    } else {
-        1 <= min && max <= 3
-    }
+    if max < 0 { -3 <= min && max <= -1 } else { 1 <= min && max <= 3 }
 }
 
 fn solve(input: impl Read, mut output: impl Write) -> Result<()> {

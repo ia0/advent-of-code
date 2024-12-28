@@ -5,7 +5,7 @@ use std::collections::{BinaryHeap, HashMap, HashSet};
 use std::io::Write;
 use std::ops::{Deref, Range};
 
-use anyhow::{bail, Context, Result};
+use anyhow::{Context, Result, bail};
 use num::{Integer, Signed};
 
 #[macro_export]
@@ -125,11 +125,7 @@ fn crt_ok() {
 }
 
 pub fn order_pair<T: Ord>(x: T, y: T) -> (T, T) {
-    if x <= y {
-        (x, y)
-    } else {
-        (y, x)
-    }
+    if x <= y { (x, y) } else { (y, x) }
 }
 
 pub fn order_pair_mut<T: Ord>(x: &mut T, y: &mut T) {

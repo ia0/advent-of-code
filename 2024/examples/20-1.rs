@@ -3,7 +3,7 @@ use std::collections::hash_map::Entry;
 use std::collections::{BinaryHeap, HashMap, HashSet};
 use std::io::{BufRead, BufReader, Read, Write};
 
-use adventofcode::{Coord, ADJACENT_PLUS};
+use adventofcode::{ADJACENT_PLUS, Coord};
 use anyhow::Result;
 
 fn solve(input: impl Read, mut output: impl Write) -> Result<()> {

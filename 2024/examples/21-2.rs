@@ -40,24 +40,21 @@ impl Cost {
     }
 
     fn init() -> Cost {
-        let direct = [
-            Coord { x: -1, y: 0 },
-            Coord { x: 1, y: 0 },
-            Coord { x: 0, y: -1 },
-            Coord { x: 0, y: 1 },
-        ]
+        let direct = [Coord { x: -1, y: 0 }, Coord { x: 1, y: 0 }, Coord { x: 0, y: -1 }, Coord {
+            x: 0,
+            y: 1,
+        }]
         .into_iter()
         .map(|p| (p, 2))
         .collect();
-        let choice = [
-            Coord { x: -1, y: -1 },
-            Coord { x: -1, y: 1 },
-            Coord { x: 1, y: -1 },
-            Coord { x: 1, y: 1 },
-        ]
-        .into_iter()
-        .map(|p| (p, Choice { xy: 3, yx: 3 }))
-        .collect();
+        let choice =
+            [Coord { x: -1, y: -1 }, Coord { x: -1, y: 1 }, Coord { x: 1, y: -1 }, Coord {
+                x: 1,
+                y: 1,
+            }]
+            .into_iter()
+            .map(|p| (p, Choice { xy: 3, yx: 3 }))
+            .collect();
         Cost { direct, choice }
     }
 
@@ -85,50 +82,38 @@ impl Cost {
             ),
         ]);
         let choice = HashMap::from([
-            (
-                Coord { x: -1, y: -1 },
-                Choice {
-                    xy: self.eval(Coord { x: -2, y: 1 }, false, true)
-                        + self.eval(Coord { x: 1, y: -1 }, true, false)
-                        + self.eval(Coord { x: 1, y: 0 }, true, true),
-                    yx: self.eval(Coord { x: -1, y: 0 }, true, true)
-                        + self.eval(Coord { x: -1, y: 1 }, false, true)
-                        + self.eval(Coord { x: 2, y: -1 }, true, false),
-                },
-            ),
-            (
-                Coord { x: -1, y: 1 },
-                Choice {
-                    xy: self.eval(Coord { x: -2, y: 1 }, false, true)
-                        + self.eval(Coord { x: 1, y: 0 }, true, true)
-                        + self.eval(Coord { x: 1, y: -1 }, true, true),
-                    yx: self.eval(Coord { x: -1, y: 1 }, true, true)
-                        + self.eval(Coord { x: -1, y: 0 }, true, true)
-                        + self.eval(Coord { x: 2, y: -1 }, true, false),
-                },
-            ),
-            (
-                Coord { x: 1, y: -1 },
-                Choice {
-                    xy: self.eval(Coord { x: 0, y: 1 }, true, true)
-                        + self.eval(Coord { x: -1, y: -1 }, true, true)
-                        + self.eval(Coord { x: 1, y: 0 }, true, true),
-                    yx: self.eval(Coord { x: -1, y: 0 }, true, true)
-                        + self.eval(Coord { x: 1, y: 1 }, true, true)
-                        + self.eval(Coord { x: 0, y: -1 }, true, true),
-                },
-            ),
-            (
-                Coord { x: 1, y: 1 },
-                Choice {
-                    xy: self.eval(Coord { x: 0, y: 1 }, true, true)
-                        + self.eval(Coord { x: -1, y: 0 }, true, true)
-                        + self.eval(Coord { x: 1, y: -1 }, true, true),
-                    yx: self.eval(Coord { x: -1, y: 1 }, true, true)
-                        + self.eval(Coord { x: 1, y: 0 }, true, true)
-                        + self.eval(Coord { x: 0, y: -1 }, true, true),
-                },
-            ),
+            (Coord { x: -1, y: -1 }, Choice {
+                xy: self.eval(Coord { x: -2, y: 1 }, false, true)
+                    + self.eval(Coord { x: 1, y: -1 }, true, false)
+                    + self.eval(Coord { x: 1, y: 0 }, true, true),
+                yx: self.eval(Coord { x: -1, y: 0 }, true, true)
+                    + self.eval(Coord { x: -1, y: 1 }, false, true)
+                    + self.eval(Coord { x: 2, y: -1 }, true, false),
+            }),
+            (Coord { x: -1, y: 1 }, Choice {
+                xy: self.eval(Coord { x: -2, y: 1 }, false, true)
+                    + self.eval(Coord { x: 1, y: 0 }, true, true)
+                    + self.eval(Coord { x: 1, y: -1 }, true, true),
+                yx: self.eval(Coord { x: -1, y: 1 }, true, true)
+                    + self.eval(Coord { x: -1, y: 0 }, true, true)
+                    + self.eval(Coord { x: 2, y: -1 }, true, false),
+            }),
+            (Coord { x: 1, y: -1 }, Choice {
+                xy: self.eval(Coord { x: 0, y: 1 }, true, true)
+                    + self.eval(Coord { x: -1, y: -1 }, true, true)
+                    + self.eval(Coord { x: 1, y: 0 }, true, true),
+                yx: self.eval(Coord { x: -1, y: 0 }, true, true)
+                    + self.eval(Coord { x: 1, y: 1 }, true, true)
+                    + self.eval(Coord { x: 0, y: -1 }, true, true),
+            }),
+            (Coord { x: 1, y: 1 }, Choice {
+                xy: self.eval(Coord { x: 0, y: 1 }, true, true)
+                    + self.eval(Coord { x: -1, y: 0 }, true, true)
+                    + self.eval(Coord { x: 1, y: -1 }, true, true),
+                yx: self.eval(Coord { x: -1, y: 1 }, true, true)
+                    + self.eval(Coord { x: 1, y: 0 }, true, true)
+                    + self.eval(Coord { x: 0, y: -1 }, true, true),
+            }),
         ]);
         Cost { direct, choice }
     }

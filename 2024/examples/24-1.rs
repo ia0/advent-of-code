@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 use std::io::{BufRead, BufReader, Read, Write};
 
-use anyhow::{bail, ensure, Result};
+use anyhow::{Result, bail, ensure};
 
 #[derive(Clone, Copy)]
 enum Gate {

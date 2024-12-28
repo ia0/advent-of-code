@@ -3,7 +3,7 @@ use std::fmt::Display;
 use std::io::{BufRead, BufReader, Read, Write};
 use std::str::FromStr;
 
-use anyhow::{bail, ensure, Result};
+use anyhow::{Result, bail, ensure};
 use rand::Rng;
 
 #[derive(Debug, Clone, Copy)]
