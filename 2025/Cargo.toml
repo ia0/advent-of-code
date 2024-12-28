@@ -1,0 +1,11 @@
+[package]
+name = "adventofcode"
+version = "0.1.0"
+authors = ["ia0 <git@ia0.eu>"]
+license = "Apache-2.0"
+edition = "2024"
+
+[dependencies]
+anyhow = "1.0.95"
+num = "0.4.3"
+rand = "0.8.5"
