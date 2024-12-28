@@ -7,7 +7,7 @@ fn check(y: i64, xs: &[i64]) -> bool {
     for i in 0 .. 1 << (xs.len() - 1) {
         let mut z = xs[0];
         for (k, x) in xs[1 ..].iter().enumerate() {
-            if i & 1 << k == 0 {
+            if i & (1 << k) == 0 {
                 z += x;
             } else {
                 z *= x;
