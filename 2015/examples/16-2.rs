@@ -8,7 +8,7 @@ type Name = Intern<String>;
 
 fn included(xs: &HashMap<Name, usize>, ys: &HashMap<Name, usize>) -> bool {
     xs.iter().all(|(x, v)| {
-        ys.get(x).map_or(false, |w| match x.as_str() {
+        ys.get(x).is_some_and(|w| match x.as_str() {
             "cats" | "trees" => v > w,
             "pomeranians" | "goldfish" => v < w,
             _ => w == v,

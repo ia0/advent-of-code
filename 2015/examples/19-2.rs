@@ -1,11 +1,9 @@
-#![feature(slice_group_by)]
-
 use std::io::{BufRead, BufReader, Read, Write};
 
 use anyhow::Result;
 
 fn segment(xs: &str) -> Vec<&[u8]> {
-    xs.as_bytes().group_by(|x, y| x.is_ascii_uppercase() && y.is_ascii_lowercase()).collect()
+    xs.as_bytes().chunk_by(|x, y| x.is_ascii_uppercase() && y.is_ascii_lowercase()).collect()
 }
 
 fn ok(x: &[u8]) -> bool {

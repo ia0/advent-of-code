@@ -1,5 +1,3 @@
-#![feature(slice_group_by)]
-
 use std::cmp::Ordering;
 use std::io::{BufRead, BufReader, Read, Write};
 use std::str::FromStr;
@@ -35,7 +33,7 @@ impl Ord for Hand {
 fn rank(mut cards: [u8; 5]) -> u8 {
     cards.sort();
     let mut count: Vec<_> =
-        cards.group_by(|x, y| x == y).map(|x| x.len()).filter(|&x| x != 1).collect();
+        cards.chunk_by(|x, y| x == y).map(|x| x.len()).filter(|&x| x != 1).collect();
     count.sort();
     count.reverse();
     assert!(count.len() <= 2);

@@ -7,7 +7,7 @@ use internment::Intern;
 type Name = Intern<String>;
 
 fn included(xs: &HashMap<Name, usize>, ys: &HashMap<Name, usize>) -> bool {
-    xs.iter().all(|(x, v)| ys.get(x).map_or(false, |w| w == v))
+    xs.iter().all(|(x, v)| ys.get(x) == Some(v))
 }
 
 fn solve(input: impl Read, mut output: impl Write) -> Result<()> {

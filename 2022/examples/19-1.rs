@@ -82,7 +82,7 @@ impl Resource {
         if needed > 0 && self.robot == 0 {
             None
         } else {
-            Some((needed + self.robot - 1) / self.robot)
+            Some(needed.div_ceil(self.robot))
         }
     }
 

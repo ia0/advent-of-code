@@ -42,7 +42,7 @@ fn solve(mut input: impl Read, mut output: impl Write) -> Result<()> {
             let Seq { x3, x5 } = pool.remove(&index).unwrap();
             index += 1;
             update(&mut pool, &salt, index + 1000);
-            if x3.map_or(false, |x3| x5.contains(&x3)) {
+            if x3.is_some_and(|x3| x5.contains(&x3)) {
                 break;
             }
         }

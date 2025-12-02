@@ -120,7 +120,7 @@ fn solve(input: impl Read, mut output: impl Write) -> Result<()> {
         }
     }
     let total = (0 .. bricks.len())
-        .filter(|i| supports.get(i).map_or(true, |xs| xs.iter().all(|x| 1 < supporters[x].len())))
+        .filter(|i| supports.get(i).is_none_or(|xs| xs.iter().all(|x| 1 < supporters[x].len())))
         .count();
     writeln!(output, "{total}")?;
     Ok(())

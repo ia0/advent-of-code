@@ -1,12 +1,10 @@
-#![feature(slice_group_by)]
-
 use std::io::{Read, Write};
 
 use anyhow::Result;
 
 fn step(xs: &[u8]) -> Vec<u8> {
     let mut ys = Vec::new();
-    for xs in xs.group_by(|x, y| x == y) {
+    for xs in xs.chunk_by(|x, y| x == y) {
         assert!(xs.len() < 10);
         ys.push(xs.len() as u8 + b'0');
         ys.push(xs[0]);

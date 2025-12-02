@@ -1,5 +1,3 @@
-#![feature(entry_insert)]
-
 use std::collections::hash_map::Entry;
 use std::collections::HashMap;
 use std::io::{Read, Write};
@@ -15,7 +13,7 @@ const ROCKS: &[(&[u8], usize)] = &[
 ];
 
 fn collide(tower: &[u8], pos: usize, rock: &[u8], shift: usize) -> bool {
-    (0 .. rock.len()).any(|i| tower.get(pos + i).map_or(false, |x| x & rock[i] >> shift != 0))
+    (0 .. rock.len()).any(|i| tower.get(pos + i).is_some_and(|x| x & rock[i] >> shift != 0))
 }
 
 fn merge(tower: &mut Vec<u8>, pos: usize, rock: &[u8], shift: usize) {

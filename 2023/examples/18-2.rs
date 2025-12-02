@@ -1,13 +1,11 @@
-#![feature(slice_group_by)]
-
 use std::io::{BufRead, BufReader, Read, Write};
 
 use adventofcode::{order_pair, Coord, EAST, NORTH, SOUTH, WEST};
 use anyhow::{bail, ensure, Context, Result};
 
 fn weight(ys_a: &[i64], ys_b: &[i64]) -> i64 {
-    assert!(ys_a.len() % 2 == 0);
-    assert!(ys_b.len() % 2 == 0);
+    assert!(ys_a.len().is_multiple_of(2));
+    assert!(ys_b.len().is_multiple_of(2));
     let mut i_a = 0;
     let mut i_b = 0;
     let mut prev_y = 0;
@@ -74,7 +72,7 @@ fn solve(input: impl Read, mut output: impl Write) -> Result<()> {
     let mut prev_x = i64::MIN + 1;
     let mut prev_ys = Vec::new();
     let mut total = 0;
-    for lines in vert.group_by(|a, b| a.0 == b.0) {
+    for lines in vert.chunk_by(|a, b| a.0 == b.0) {
         let next_x = lines[0].0;
         let mut next_ys = prev_ys.clone();
         for (_, y1, y2) in lines {

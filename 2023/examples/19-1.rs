@@ -1,5 +1,3 @@
-#![feature(slice_group_by)]
-
 use std::collections::HashMap;
 use std::io::{BufRead, BufReader, Read, Write};
 use std::str::FromStr;

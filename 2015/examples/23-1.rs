@@ -77,7 +77,9 @@ impl State {
             Some(Instruction::Triple(r)) => self.register[r.0] *= 3,
             Some(Instruction::Increment(r)) => self.register[r.0] += 1,
             Some(Instruction::Jump(o)) => jump = Some(o),
-            Some(Instruction::JumpIfEven(r, o)) if self.register[r.0] % 2 == 0 => jump = Some(o),
+            Some(Instruction::JumpIfEven(r, o)) if self.register[r.0].is_multiple_of(2) => {
+                jump = Some(o)
+            }
             Some(Instruction::JumpIfEven(_, _)) => (),
             Some(Instruction::JumpIfOne(r, o)) if self.register[r.0] == 1 => jump = Some(o),
             Some(Instruction::JumpIfOne(_, _)) => (),

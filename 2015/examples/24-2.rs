@@ -18,7 +18,7 @@ fn solve(input: impl Read, mut output: impl Write) -> Result<()> {
             let xs = iter.get().iter().map(|&i| weights[i]);
             if xs.clone().sum::<usize>() == target {
                 let cur = xs.product::<usize>();
-                if best.map_or(true, |best| cur < best) {
+                if best.is_none_or(|best| cur < best) {
                     best = Some(cur);
                 }
             }

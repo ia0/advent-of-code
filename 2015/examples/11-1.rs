@@ -1,5 +1,3 @@
-#![feature(slice_group_by)]
-
 use std::io::{Read, Write};
 
 use anyhow::Result;
@@ -10,7 +8,7 @@ fn valid(pwd: [u8; 8]) -> bool {
         if x[0] != x[1] {
             continue;
         }
-        if pair.map_or(false, |y| x[0] != y) {
+        if pair.is_some_and(|y| x[0] != y) {
             return pwd.windows(3).any(|x| x[2] == x[1] + 1 && x[1] == x[0] + 1);
         }
         pair = Some(x[0]);

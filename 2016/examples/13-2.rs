@@ -11,7 +11,7 @@ fn open(d: usize, p: Coord) -> bool {
     }
     let x = p.x as usize;
     let y = p.y as usize;
-    (x * x + 3 * x + 2 * x * y + y + y * y + d).count_ones() % 2 == 0
+    (x * x + 3 * x + 2 * x * y + y + y * y + d).count_ones().is_multiple_of(2)
 }
 
 fn solve(mut input: impl Read, mut output: impl Write) -> Result<()> {

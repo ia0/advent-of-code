@@ -35,7 +35,7 @@ struct Packet {
 
 #[derive(Debug)]
 enum Content {
-    Literal(usize), // type_id 4
+    Literal(#[allow(dead_code)] usize), // type_id 4
     Operator(Vec<Packet>),
 }
 

@@ -1,5 +1,3 @@
-#![feature(slice_group_by)]
-
 use std::cmp::Ordering;
 use std::io::{BufRead, BufReader, Read, Write};
 use std::str::FromStr;
@@ -36,7 +34,7 @@ fn rank(mut cards: [u8; 5]) -> u16 {
     cards.sort();
     let jokers = cards.iter().take_while(|&&x| x == 0).count();
     let mut count: Vec<_> =
-        cards[jokers ..].group_by(|x, y| x == y).map(|x| x.len() as u8).collect();
+        cards[jokers ..].chunk_by(|x, y| x == y).map(|x| x.len() as u8).collect();
     count.sort();
     count.reverse();
     count.resize(2, 0);

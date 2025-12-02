@@ -123,7 +123,7 @@ impl Business {
             self.monkeys[monkey].count += 1;
             let mut worry = self.monkeys[monkey].items[item];
             worry = self.monkeys[monkey].inspect.update(worry) % self.modulo;
-            let test = worry % self.monkeys[monkey].divisor == 0;
+            let test = worry.is_multiple_of(self.monkeys[monkey].divisor);
             let destination = self.monkeys[monkey].destination[test as usize];
             self.monkeys[destination].items.push(worry);
         }

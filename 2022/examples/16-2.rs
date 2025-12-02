@@ -137,7 +137,7 @@ fn solve(input: impl Read, mut output: impl Write) -> Result<()> {
             let mut best: Option<(usize, usize)> = None;
             for name in 0 .. remaining_flow.len() {
                 let cur = (flow(name, 0) < flow(name, 1)) as usize;
-                if best.map_or(true, |best| flow(best.0, best.1) < flow(name, cur)) {
+                if best.is_none_or(|best| flow(best.0, best.1) < flow(name, cur)) {
                     best = Some((name, cur));
                 }
             }

@@ -6,7 +6,7 @@ fn solve(mut input: impl Read, mut output: impl Write) -> Result<()> {
     let mut threshold = String::new();
     input.read_to_string(&mut threshold)?;
     let threshold = threshold.parse::<usize>()?;
-    let mut count = vec![11; (threshold + 10) / 11];
+    let mut count = vec![11; threshold.div_ceil(11)];
     let n = count.len();
     for i in 2 .. n {
         for j in (i .. n).step_by(i).take(50) {

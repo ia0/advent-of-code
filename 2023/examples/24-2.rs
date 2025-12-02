@@ -27,10 +27,12 @@ fn reduce(matrix: &mut [[BigInt; 7]], k: usize) -> Option<()> {
     }
     for i in k + 1 .. n {
         let (_, s, t) = egcd(matrix[k][k].clone(), matrix[i][k].clone());
+        #[expect(clippy::needless_range_loop)]
         for j in k .. 7 {
             matrix[k][j] = s.clone() * matrix[k][j].clone() + t.clone() * matrix[i][j].clone();
         }
         let r = matrix[i][k].clone() / matrix[k][k].clone();
+        #[expect(clippy::needless_range_loop)]
         for j in k .. 7 {
             matrix[i][j] -= r.clone() * matrix[k][j].clone();
         }

@@ -25,7 +25,7 @@ struct Parameter {
 }
 
 impl<'a> State<'a> {
-    fn new(program: Box<[i64]>, input: &[i64]) -> State {
+    fn new(program: Box<[i64]>, input: &[i64]) -> State<'_> {
         State { program, position: 0, input, output: Vec::new() }
     }
 
