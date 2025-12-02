@@ -2,6 +2,10 @@
 
 This repository contains solutions for the [Advent of Code][advent-of-code] (an
 advent calendar of small programming puzzles) of the following years:
+
+- [2025](2025)
+- [2024](2024)
+- [2023](2023)
 - [2022](2022)
 - [2021](2021)
 - [2020](2020)
