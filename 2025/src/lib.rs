@@ -2,6 +2,7 @@
 
 use std::cmp::Reverse;
 use std::collections::{BinaryHeap, HashMap, HashSet};
+use std::hash::Hash;
 use std::io::Write;
 use std::ops::{Deref, Range};
 
@@ -422,4 +423,67 @@ fn intervals_insert() {
     test(&[0 .. 10, 20 .. 30, 35 .. 40], &[0 .. 10, 20 .. 30, 35 .. 40]);
     test(&[0 .. 10, 20 .. 30, 30 .. 40], &[0 .. 10, 20 .. 40]);
     test(&[0 .. 10, 20 .. 30, 25 .. 40], &[0 .. 10, 20 .. 40]);
+}
+
+#[derive(Default)]
+pub struct UnionFind<T> {
+    slots: HashMap<T, UnionFindSlot<T>>,
+}
+
+#[derive(Clone, Copy)]
+enum UnionFindSlot<T> {
+    Root(usize), // number of descendants
+    Parent(T),
+}
+
+impl<T: Copy + Hash + Eq> UnionFind<T> {
+    pub fn union(&mut self, x: T, y: T) {
+        let (rx, sx) = self.find(x);
+        let (ry, sy) = self.find(y);
+        if rx == ry {
+            return;
+        }
+        let (r, c) = if sx < sy { (ry, rx) } else { (rx, ry) };
+        self.slots.insert(c, UnionFindSlot::Parent(r));
+        self.slots.insert(r, UnionFindSlot::Root(sx + sy));
+    }
+
+    /// Returns the root and its size (number of descendants including itself).
+    pub fn find(&mut self, x: T) -> (T, usize) {
+        let p = match self.slots.get(&x) {
+            Some(&UnionFindSlot::Parent(p)) => p,
+            Some(&UnionFindSlot::Root(s)) => return (x, s),
+            None => {
+                self.slots.insert(x, UnionFindSlot::Root(1));
+                return (x, 1);
+            }
+        };
+        let (r, s) = self.find(p);
+        self.slots.insert(x, UnionFindSlot::Parent(r));
+        (r, s)
+    }
+
+    /// Returns the roots with their number of descendants.
+    pub fn roots(&self) -> impl Iterator<Item = (T, usize)> {
+        self.slots.iter().filter_map(|(&r, &v)| match v {
+            UnionFindSlot::Root(s) => Some((r, s)),
+            UnionFindSlot::Parent(_) => None,
+        })
+    }
+}
+
+#[test]
+fn union_find() {
+    #[track_caller]
+    fn test(xys: &[(i64, i64)], r: &[(i64, usize)]) {
+        let mut uf = UnionFind::<i64>::default();
+        for &(x, y) in xys {
+            uf.union(x, y);
+        }
+        let mut a: Vec<_> = uf.roots().collect();
+        a.sort();
+        assert_eq!(a, r);
+    }
+    test(&[(1, 2), (2, 3), (3, 4)], &[(1, 4)]);
+    test(&[(1, 2), (5, 3), (3, 4)], &[(1, 2), (5, 3)]);
 }
