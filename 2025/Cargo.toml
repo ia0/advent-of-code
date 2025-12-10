@@ -9,3 +9,4 @@ edition = "2024"
 anyhow = "1.0.95"
 num = "0.4.3"
 rand = "0.8.5"
+z3 = { version = "0.19.5", features = ["gh-release"] }
